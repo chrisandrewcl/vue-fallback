@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chrisandrew.cl/vue-fallback.git"
+    "url": "git+https://github.com/chrisandrewcl/vue-fallback.git"
   },
   "keywords": [
     "vue",
@@ -25,12 +25,12 @@
   "author": "chrisandrew.cl",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chrisandrew.cl/vue-fallback/issues"
+    "url": "https://github.com/chrisandrewcl/vue-fallback/issues"
   },
   "peerDependencies": {
     "vue": "^2.6"
   },
-  "homepage": "https://github.com/chrisandrew.cl/vue-fallback",
+  "homepage": "https://github.com/chrisandrewcl/vue-fallback",
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/preset-env": "^7.1.0",
