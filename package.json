@@ -1,0 +1,41 @@
+{
+  "name": "vue-fallback",
+  "version": "0.1.0",
+  "description": "Fallback component for Vue.js 2",
+  "main": "dist/vue-fallback.min.js",
+  "module": "dist/vue-fallback.esm.js",
+  "global": "Fallback",
+  "scripts": {
+    "test": "echo 'Error: not implemented yet' && exit 1",
+    "build": "node ./rollup.build.js",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chrisandrew.cl/vue-fallback.git"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "vue.js",
+    "fallback",
+    "suspense",
+    "component"
+  ],
+  "author": "chrisandrew.cl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chrisandrew.cl/vue-fallback/issues"
+  },
+  "peerDependencies": {
+    "vue": "^2.6"
+  },
+  "homepage": "https://github.com/chrisandrew.cl/vue-fallback",
+  "devDependencies": {
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "rollup": "^0.60.4",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-minify-es": "^1.1.1"
+  }
+}

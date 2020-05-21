@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Vue Fallback example</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <p> Wait 2 minutes to see results... </p>
+    <h1> This will pass: </h1>
+    <fallback :promise="asyncResultOK">
+      <template #resolved>{{ resolvedMessage }}</template>
+      <template #pending>{{ pendingMessage }}</template>
+      <template #rejected>{{ rejectedMessage }}</template>
+    </fallback>
+
+    <h1> This will fail: </h1>
+    <fallback :promise="asyncResultNOK">
+      <template #resolved>{{ resolvedMessage }}</template>
+      <template #pending>{{ pendingMessage }}</template>
+      <template #rejected>{{ rejectedMessage }}</template>
+    </fallback>
+
+    <h1> This also fails but #rejected was not defined: </h1>
+    <fallback :promise="asyncResultNOK">
+      <template #resolved>{{ maybeMessage }}</template>
+      <template #pending>{{ pendingMessage }}</template>
+    </fallback>
+  </div>
+  <script type="module">
+    import Fallback from '/dist/vue-fallback.esm.js';
+
+    Vue.use(Fallback.Plugin);
+
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          resolvedMessage: 'All done!',
+          pendingMessage: 'Loading...',
+          rejectedMessage: 'Oops! Something went wrong.',
+          maybeMessage: 'It may have worked. Or maybe not. Who knows?!',
+        };
+      },
+      beforeCreate() {
+        const delay = 2000;
+        this.asyncResultOK = new Promise(function(resolve) { 
+          setTimeout(resolve.bind(null, true), delay);
+        });
+        this.asyncResultNOK = new Promise(function(_, reject) { 
+          setTimeout(reject.bind(null, true), delay);
+        });
+      }
+    })
+  </script>
+</body>
+</html>
