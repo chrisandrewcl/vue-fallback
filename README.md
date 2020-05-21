@@ -65,4 +65,4 @@ When no `#pending` slot is given, the component does nothing. This probably happ
 - [ ] Add tests
 - [ ] Improve docs
 - [ ] Get usage feedback
-- [ ] Publish
+- [x] Publish
