@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>States example — Vue Fallback</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1> All slots defined: </h1>
+      <label><input type="radio" value="pending" v-model="state1">pending</label>
+      <label><input type="radio" value="done" v-model="state1">done</label>
+      <label><input type="radio" value="error" v-model="state1">error</label>
+      <br/>
+      <fallback :state="state1">
+        <template #pending>
+          <p> Loading... </p>
+        </template>
+        <template #done>
+          <p> All done! </p>
+        </template>
+        <template #error>
+          <p> Oops! Something went wrong. </p>
+        </template>
+      </fallback>
+
+      <h1> No #error: </h1>
+      <label><input type="radio" value="pending" v-model="state2">pending</label>
+      <label><input type="radio" value="done" v-model="state2">done</label>
+      <label><input type="radio" value="error" v-model="state2">error</label>
+      <br/>
+      <fallback :state="state2">
+        <template #pending>
+          <p> Loading... </p>
+        </template>
+        <template #done>
+          <p> It may have worked. Or maybe not. Who knows?! </p>
+        </template>
+      </fallback>
+    </div>
+    <script type="module">
+      import Fallback from '../dist/vue-fallback.esm.js';
+
+      Vue.use(Fallback.plugin);
+
+      new Vue({
+        el: '#app',
+        data() {
+          return {
+            state1: 'pending',
+            state2: 'pending',
+          };
+        }
+      })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Basic example — Vue Fallback</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Click a button</h1>
+      <fallback :state="state">
+        <template #done>
+          <counter-button></counter-button>
+          <button @click="restart">Restart!</button>
+        </template>
+        <template #pending>
+          <p>Loading... Please wait.</p>
+        </template>
+      </fallback>
+    </div>
+    <script type="module">
+      import Fallback from "../dist/vue-fallback.esm.js";
+
+      Vue.use(Fallback.plugin)
+
+      Vue.component('counter-button', {
+        data() {
+          return {
+            counter: 0,
+          };
+        },
+        template: `
+          <button @click="counter++">Clicked {{ counter }} times</button>
+        `,
+      });
+
+      new Vue({
+        el: "#app",
+        data() {
+          return {
+            state: 'pending',
+          };
+        },
+        methods: {
+          restart() {
+            this.state = 'pending';
+            setTimeout(() => {
+              this.state = 'done';
+            }, 2000);
+          },
+        },
+        created() {
+          this.restart();
+        },
+      });
+    </script>
+  </body>
+</html>

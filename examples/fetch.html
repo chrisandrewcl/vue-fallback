@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Fetch example — Vue Fallback</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <h1>Random image</h1>
+      <fallback :state="state">
+        <template #done>
+          <img :src="response.url" /><br />
+          <button @click="giveImg">
+            Gimme another one!
+          </button>
+          <button @click="giveError">
+            I'm feeling unlucky
+          </button>
+        </template>
+        <template #pending>
+          <p>Loading... Please wait.</p>
+        </template>
+        <template #error>
+          <p>No image for you :(</p>
+          <p style="font-size: 80%; color: gray">{{ reason }}</p>
+          <button @click="giveImg">
+            Try again!
+          </button>
+        </template>
+      </fallback>
+    </div>
+    <script type="module">
+      import Fallback from "../dist/vue-fallback.esm.js";
+
+      new Vue({
+        el: "#app",
+        components: {
+          fallback: Fallback.component,
+        },
+        data() {
+          return {
+            request: null,
+            response: null,
+            state: 'pending',
+            reason: null,
+          };
+        },
+        methods: {
+          giveImg() {
+            this.state = 'pending';
+            this.request = fetch("https://source.unsplash.com/featured/320x240/?nature")
+              .then((data) => {
+                this.response = data;
+                this.state = 'done';
+              })
+              .catch((reason) => {
+                this.reason = reason;
+                this.state = 'error';
+              });
+          },
+          giveError() {
+            this.state = 'pending';
+            this.request = new Promise((_, reject) => {
+              setTimeout(() => {
+                reject(new Error("You had no luck!"));
+              }, 2000);
+            }).catch((reason) => {
+              this.reason = reason;
+              this.state = 'error';
+            });
+          },
+        },
+        created() {
+          this.giveImg();
+        },
+      });
+    </script>
+  </body>
+</html>

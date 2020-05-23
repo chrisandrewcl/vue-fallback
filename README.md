@@ -1,68 +1,73 @@
 # vue-fallback
 
-Vue Fallback is an alternative for the lack of the *Suspense* component in Vue.js 2.
+Vue Fallback is a simplistic alternative for the lack of the *Suspense* component in Vue.js 2.
 
 <p align="center">
   <img src="fallback.gif">
 </p>
 
-## Usage
+## Disclaimer
 
-Add the plugin to your project dependencies
+This is an experiment in a very early stage of development. Use it at your own risk.
+
+## Installation
+
+Add the package to your project dependencies:
 
 ```shell
-$ npm install vue-fallback
+npm install vue-fallback
+
+# or
+
+yarn add vue-fallback
 ```
 
-Then
+Import it as a plugin to register the component globally:
 
 ```javascript
-import Vue from 'vue';
 import Fallback from 'vue-fallback';
+Vue.use(Fallback.plugin);
 
-Vue.use(Fallback.Plugin);
+// or
 
-new Vue({
-  el: '#app',
-  template: `
-    <fallback :promise="asyncResult">
-      <template #resolved>{{ resolvedMessage }}</template>
-      <template #pending>{{ pendingMsg }}</template>
-      <template #rejected>{{ rejectedMessage }}</template>
-    </fallback>
-  `,
-  data() {
-    return {
-      resolvedMessage: 'All done!',
-      pendingMsg: 'Loading...',
-      rejectedMessage: 'Oops! Something went wrong.',
-    };
-  },
-  created() {
-    this.asyncResult = new Promise(resolve => {
-      setTimeout(() => { resolve(true); }, 2000);
-    });
-  }
-});
+import { plugin } from 'vue-fallback';
+Vue.use(plugin);
 ```
 
-## How it works
+Or, alternatively, import just the component to use it only where needed:
 
-The Fallback component has only one prop, the `promise`, which is required and also happens to be a Promise.
+```javascript
+import Fallback from 'vue-fallback';
+Vue.component('fallback', Fallback.component);
 
-While the promise is not finished, the content from `#pending` slot will be displayed.
+// or
 
-If the promise is successfully resolved, the `#resolved` content will then be shown.
+import { fallback } from 'vue-fallback';
+Vue.component('fallback', fallback);
+```
 
-At last, if the promise got rejected, the `#rejected` slot will be shown instead.
+## Usage
+
+```html
+<fallback :state="state">
+  <template #done>
+    <button @click="restart">Restart!</button>
+  </template>
+  <template #pending>
+    <p>Loading... Please wait.</p>
+  </template>
+</fallback>
+```
+
+The Fallback component has only one prop, the `state`, which is required and determines which slot will be shown according to its value (`pending`, `done` or `error`).
+
+When no `#error` slot is given `#done` will be used regardless of the outcome.
 
 ## Known issues
 
-When no `#pending` slot is given, the component does nothing. This probably happens because it works like a fragment, so since there is no root element it is not possible to make further updates to the DOM.
+Due to the use of a functional component to circumvent the single-root rule (to avoid an unwanted wrapper element), Vue.js devtools will show several nodes for a single instance. This is not a deal-breaker, it is just a little annoying.
 
 ## TODO
 
 - [ ] Add tests
-- [ ] Improve docs
 - [ ] Get usage feedback
-- [x] Publish
