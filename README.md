@@ -6,6 +6,10 @@ Vue Fallback is an alternative for the lack of the *Suspense* component in Vue.j
   <img src="fallback.gif">
 </p>
 
+## Disclaimer
+
+This is an experiment in a very early stage of development and is not suitable for production. See more details in [known issues](#known-issues).
+
 ## Usage
 
 Add the plugin to your project dependencies
@@ -58,11 +62,12 @@ At last, if the promise got rejected, the `#rejected` slot will be shown instead
 
 ## Known issues
 
-When no `#pending` slot is given, the component does nothing. This probably happens because it works like a fragment, so since there is no root element it is not possible to make further updates to the DOM.
+Current implementation tries to circumvent Vue single-root rule by unwrapping the component content but this results in Vue not being able to make further changes to the DOM, which is a deal-breaker.
+
+The [functional branch](https://github.com/chrisandrewcl/vue-fallback/tree/functional) has another implementation that uses a functional component to work around this issue.
 
 ## TODO
 
 - [ ] Add tests
 - [ ] Improve docs
 - [ ] Get usage feedback
-- [x] Publish
